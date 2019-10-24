@@ -47,18 +47,18 @@ public class MainActivity extends AppCompatActivity {
                         setFragment(fragment);
                         //getSupportActionBar().setTitle(Html.fromHtml("<font color='#13CE66'>Profile</font>"));
                         return true;
-                    case R.id.nav_charity:
+                    /*case R.id.nav_charity:
                         setFragment(charityFragment);
                         //getSupportActionBar().setTitle(Html.fromHtml("<font color='#13CE66'>Charity</font>"));
-                        return true;
+                        return true;*/
                     case R.id.nav_donate:
                         setFragment(donateFragment);
                         //getSupportActionBar().setTitle(Html.fromHtml("<font color='#13CE66'>Donate</font>"));
                         return true;
-                    case R.id.nav_social:
+                    /*case R.id.nav_social:
                         setFragment(socialFragment);
                         //getSupportActionBar().setTitle(Html.fromHtml("<font color='#13CE66'>Social</font>"));
-                        return true;
+                        return true;*/
                         default:
                             return false;
                 }

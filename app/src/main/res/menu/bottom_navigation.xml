@@ -5,19 +5,19 @@
         android:icon="@drawable/ic_person_outline_black_24dp"
         android:title="Profile" />
 
-    <item
+    <!--<item
         android:id="@+id/nav_charity"
         android:icon="@drawable/ic_payment"
-        android:title="Charity" />
+        android:title="Charity" />-->
 
     <item
         android:id="@+id/nav_donate"
         android:icon="@drawable/ic_donation"
         android:title="Donate" />
 
-    <item
+    <!--<item
         android:id="@+id/nav_social"
         android:icon="@drawable/ic_placeholder"
-        android:title="About us" />
+        android:title="About us" />-->
 
 </menu>
