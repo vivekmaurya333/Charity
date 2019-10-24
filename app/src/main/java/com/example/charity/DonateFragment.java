@@ -98,7 +98,7 @@ public class DonateFragment extends Fragment implements AdapterView.OnItemSelect
                                 lat = location.getLatitude();
                                 longi = location.getLongitude();
                                 super.onLocationResult(locationResult);
-                                tv_loc.setText("Latitude = " + lat + "Longitude = " + longi);
+                                tv_loc.setText("Latitude = " + lat + " Longitude = " + longi);
                             }
                         };
                         LocationRequest request = new LocationRequest();
