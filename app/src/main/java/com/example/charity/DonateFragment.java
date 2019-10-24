@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +19,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +43,7 @@ public class DonateFragment extends Fragment implements AdapterView.OnItemSelect
     private static final int REQUEST_IMAGE_CAPTURE = 107;
     private Button captureImageButton, pickupButton;
     private EditText title;
+    private TextView tv_loc;
     private ImageView imageView;
     private DatabaseHelper db;
     private static final String PREFS_NAME = "PrefsFile";
@@ -42,6 +52,11 @@ public class DonateFragment extends Fragment implements AdapterView.OnItemSelect
     private String imageFileName;
     Uri photoURI;
     Bitmap bitmap;
+
+    LocationCallback callback;
+    FusedLocationProviderClient client;
+    Location location;
+    double lat, longi;
 
     @Nullable
     @Override
@@ -54,9 +69,11 @@ public class DonateFragment extends Fragment implements AdapterView.OnItemSelect
         super.onViewCreated(view, savedInstanceState);
         db = new DatabaseHelper(getActivity());
         final Spinner spinner = view.findViewById(R.id.spinner1);
+        tv_loc = view.findViewById((R.id.tv_location));
         captureImageButton = view.findViewById(R.id.CaptureImageButton);
         pickupButton = view.findViewById(R.id.PickupButton);
         title = view.findViewById(R.id.edittexttitle);
+        client = LocationServices.getFusedLocationProviderClient(getContext());
         captureImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,16 +91,21 @@ public class DonateFragment extends Fragment implements AdapterView.OnItemSelect
                 if (sp.getString("pref", "").equals("true")) {
                     long val = db.addUserInfo(email, bitmap, category, thingname);
                     if (val > 0) {
-                        LocationFinder finder;
-                        double longitude = 0.0, latitude = 0.0;
-                        finder = new LocationFinder(getActivity());
-                        if (finder.canGetLocation()) {
-                            latitude = finder.getLatitude();
-                            longitude = finder.getLongitude();
-                            Toast.makeText(getActivity(),"lat-lng " + latitude + " — " + longitude, Toast.LENGTH_LONG).show();
-                        } else {
-                            finder.showSettingsAlert();
-                        }
+                        callback = new LocationCallback() {
+                            @Override
+                            public void onLocationResult(LocationResult locationResult){
+                                location = locationResult.getLocations().get(0);
+                                lat = location.getLatitude();
+                                longi = location.getLongitude();
+                                super.onLocationResult(locationResult);
+                                tv_loc.setText("Latitude = " + lat + "Longitude = " + longi);
+                            }
+                        };
+                        LocationRequest request = new LocationRequest();
+                        request.setFastestInterval(3000);
+                        request.setInterval(5000);
+                        request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+                        client.requestLocationUpdates(request, callback, Looper.myLooper());
                     }
                 }
                 else {
