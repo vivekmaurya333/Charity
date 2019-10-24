@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:background="#ffffff" android:id="@+id/fragment_profile" android:layout_height="match_parent" android:layout_width="match_parent">
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/profile_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:width="39dp"
+            android:height="92dp"
+            android:text="Profile"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:gravity="center"/>
+
+        <FrameLayout
+            android:id="@+id/user_image"
+            android:paddingLeft="12dp"
+            android:paddingStart="12dp"
+            android:paddingRight="15dp"
+            android:paddingEnd="15dp"
+            android:layout_below="@id/profile_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/user_imgview2"
+                android:contentDescription="userimage"
+                android:src="@drawable/ic_person_outline_black_24dp2"
+                android:scaleType="centerCrop"
+                android:layout_width="120dp"
+                android:background="#80D8D8D8"
+                android:layout_height="120dp"/>
+
+            <ImageView
+                android:contentDescription="userimage"
+                android:id="@+id/user_imgview"
+                android:src="@mipmap/circleview_background"
+                android:layout_width="120dp"
+                android:layout_height="120dp"/>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/profile_textview"
+            android:layout_toEndOf="@id/user_image"
+            android:layout_toRightOf="@id/user_image">
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hi, User"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:width="152dp"
+                android:height="22dp"/>
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="user@gmail.com"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/mobile"
+                android:layout_marginTop="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="+91-1234567890"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/edit"
+                android:layout_marginTop="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="EDIT"
+                android:textStyle="bold"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_contributions"
+            android:padding="12dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_image"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="Your Previous Contributions"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/contributions"
+            android:layout_below="@id/text_contributions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</ScrollView>
