@@ -17,6 +17,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
 
@@ -25,6 +27,7 @@ import static android.app.Activity.RESULT_OK;
 public class HomeFragment extends Fragment {
 
     private static final String PREFS_NAME = "PrefsFile";
+    private SharedPreferences mPrefs;
     private static final int IMAGEREQ = 1;
 
     private ImageView imageView;
@@ -40,7 +43,9 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         db = new DatabaseHelper(getActivity());
-        TextView mTextViewName, mTextViewEmail, mTextViewMobile, mTextViewEdit;
+        TextView mTextViewName, mTextViewEmail, mTextViewMobile, mTextViewEdit, mTextViewSO;
+        mTextViewSO = view.findViewById(R.id.tv_signout);
+        mPrefs = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         LinearLayout linearLayout = view.findViewById(R.id.contributions);
         mTextViewName = view.findViewById(R.id.username);
         mTextViewEmail = view.findViewById(R.id.mail);
@@ -63,10 +68,25 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        mTextViewSO.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = mPrefs.edit();
+                editor.putString("pref", "false");
+                editor.apply();
+                LoginFragment loginFragment = new LoginFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, loginFragment);
+                fragmentTransaction.commit();
+            }
+        });
         SharedPreferences sp = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         if(sp.getString("pref", "").equals("true")) {
-            mTextViewName.setText("Hi, " + sp.getString("pref_name", ""));
-            mTextViewEmail.setText(sp.getString("pref_mail", ""));
+            ArrayList values;
+            values = db.getUserData(sp.getString("pref_mail", ""));
+            mTextViewName.setText("Hi, " + values.get(0));
+            mTextViewEmail.setText((String)values.get(1));
             mTextViewMobile.setText("+91-" + String.valueOf(sp.getLong("pref_mobile", 0)));
         }
         ArrayList values;

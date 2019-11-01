@@ -94,6 +94,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
+    ArrayList getUserData(String email){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList s = new ArrayList();
+        Cursor c = db.rawQuery("SELECT username, email FROM registeruser WHERE email = ?", new String[] {email});
+        if(c.moveToFirst()) {
+            do {
+                s.add(c.getString(0));
+                s.add(c.getString(1));
+            }while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+        return s;
+    }
+
     ArrayList getUserInfo(String email){
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList s = new ArrayList();
@@ -104,7 +119,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 s.add(img);
                 s.add(c.getString(1));
                 s.add(c.getString(2));
-                System.out.println(s);
+            }while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+        return s;
+    }
+
+    ArrayList getAllInfo(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList s = new ArrayList();
+        Cursor c = db.rawQuery("SELECT username, r.email, image, category, thingname FROM registeruser r, userinfo u", new String[] {});
+        if(c.moveToFirst()) {
+            do {
+                s.add(c.getString(0));
+                s.add(c.getString(1));
+                Bitmap img = DbBitmapUtility.getImage(c.getBlob(2));
+                s.add(img);
+                s.add(c.getString(3));
+                s.add(c.getString(4));
             }while (c.moveToNext());
         }
         c.close();

@@ -16,8 +16,8 @@
         android:title="Donate" />
 
     <!--<item
-        android:id="@+id/nav_social"
-        android:icon="@drawable/ic_placeholder"
-        android:title="About us" />-->
+        android:id="@+id/nav_admin"
+        android:icon="@drawable/ic_person_outline_black_24dp"
+        android:title="Admin" />-->
 
 </menu>

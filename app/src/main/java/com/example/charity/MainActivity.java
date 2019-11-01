@@ -31,19 +31,14 @@ public class MainActivity extends AppCompatActivity {
         charityFragment = new CharityFragment();
         donateFragment = new DonateFragment();
         socialFragment = new SocialFragment();
-        SharedPreferences sp = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        if(sp.getString("pref", "").equals("true")) {
-            fragment = new HomeFragment();
-        }
-        else {
-            fragment = new LoginFragment();
-        }
+        onCreateHelper();
         setFragment(fragment);
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.nav_profile:
+                        onCreateHelper();
                         setFragment(fragment);
                         //getSupportActionBar().setTitle(Html.fromHtml("<font color='#13CE66'>Profile</font>"));
                         return true;
@@ -55,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
                         setFragment(donateFragment);
                         //getSupportActionBar().setTitle(Html.fromHtml("<font color='#13CE66'>Donate</font>"));
                         return true;
-                    /*case R.id.nav_social:
-                        setFragment(socialFragment);
+                    /*case R.id.nav_admin:
+                        setFragment(adminFragment);
                         //getSupportActionBar().setTitle(Html.fromHtml("<font color='#13CE66'>Social</font>"));
                         return true;*/
                         default:
@@ -65,6 +60,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void onCreateHelper() {
+        SharedPreferences sp = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        if(sp.getString("pref", "").equals("true")) {
+            fragment = new HomeFragment();
+        }
+        else if(sp.getString("pref", "").equals("admin")){
+            fragment = new AdminFragment();
+        }
+        else {
+            fragment = new LoginFragment();
+        }
+    }
+
     private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
